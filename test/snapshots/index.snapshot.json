@@ -1,1 +1,1 @@
-{"foo bar":{"skip":false,"todo":false,"run":false,"isPending":false,"isRejected":false,"isFulfilled":true,"id":1,"str":"t => {\n  t.ok(true);\n}","title":"foo bar"}}
+{"utils.getCacheFile() includes homepath":{"skip":false,"todo":false,"run":false,"isPending":false,"isRejected":false,"isFulfilled":true,"id":1,"str":"(t) => {\n  t.ok(utils.getCacheFile().includes(os.homedir()));\n}","title":"utils.getCacheFile() includes homepath"}}

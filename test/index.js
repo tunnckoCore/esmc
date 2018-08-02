@@ -5,8 +5,10 @@
  * @license Apache-2.0
  */
 
+const os = require('os');
 const test = require('asia');
+const utils = require('../src/utils');
 
-test('foo bar', (t) => {
-  t.ok(true);
+test('utils.getCacheFile() includes homepath', (t) => {
+  t.ok(utils.getCacheFile().includes(os.homedir()));
 });

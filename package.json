@@ -5,7 +5,7 @@
   "licenseStart": "2018",
   "scripts": {
     "lint": "eslint src test --fix --quiet",
-    "test": "nyc --require ./register asia",
+    "test": "nyc asia test/**",
     "gitadd": "git status --porcelain && git add -A",
     "commit-dry": "yarn gitadd && gitcommit -sS",
     "precommit": "yarn lint && yarn test && yarn gitadd",
