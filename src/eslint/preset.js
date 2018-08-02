@@ -1,9 +1,5 @@
 'use strict';
 
-const path = require('path');
+const esmc = require('eslint-config-esmc');
 
-module.exports = () => ({
-  extends: ['flowtype', 'base', 'node', 'promise', 'unicorn']
-    .filter(Boolean)
-    .map((x) => path.join(__dirname, 'configs', `${x}.js`)),
-});
+module.exports = () => esmc;
