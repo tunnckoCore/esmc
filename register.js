@@ -2,4 +2,4 @@
 
 const babelConfig = require('./src/babel/preset');
 
-require('@babel/register')(babelConfig());
+require('@babel/register')(babelConfig(false, true));
