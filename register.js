@@ -1,5 +1,8 @@
 'use strict';
 
-const babelConfig = require('./src/babel/preset');
+const proc = require('process');
+const esmPreset = require('babel-preset-esmc');
 
-require('@babel/register')(babelConfig(false, true));
+proc.env.ESMC_CJS = 'true';
+
+require('@babel/register')(esmPreset());

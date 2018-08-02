@@ -10,19 +10,23 @@ const babelPreset = require('./babel/preset');
 
 const transformFile = util.promisify(babel.transformFile);
 
-module.exports = async (files, opts, debug = false) =>
-  Promise.all(files.map(createMapper('nodejs', opts, debug))).then(() =>
-    Promise.all(files.map(createMapper('browsers', opts, debug))),
+module.exports = async function build(files, opts, debug = false) {
+  proc.env.ESMC_BROWSERS = 'false';
+  proc.env.ESMC_CJS = String(!opts.esm);
+
+  return Promise.all(files.map(createMapper('nodejs', opts, debug))).then(
+    () => {
+      proc.env.ESMC_BROWSERS = 'true';
+      return Promise.all(files.map(createMapper('browsers', opts, debug)));
+    },
   );
+};
 
 function createMapper(distType, opts, debug = false) {
   const cwd = proc.cwd();
   const dist = path.join(cwd, 'dist');
 
-  const config =
-    distType === 'browsers'
-      ? babelPreset(true, !opts.esm)
-      : babelPreset(false, !opts.esm);
+  const config = distType === 'browsers' ? babelPreset() : babelPreset();
 
   const dest =
     distType === 'browsers'
