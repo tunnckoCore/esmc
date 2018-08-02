@@ -30,8 +30,8 @@
     "@babel/preset-flow": "^7.0.0-beta.55",
     "@babel/preset-react": "^7.0.0-beta.55",
     "@babel/register": "^7.0.0-beta.55",
+    "ansi-colors": "^2.0.5",
     "babel-eslint": "^8.2.6",
-    "chalk": "^2.4.1",
     "cross-spawn": "^6.0.5",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^17.0.0",
@@ -48,16 +48,17 @@
     "fast-glob": "^2.2.2",
     "file-state-monitor": "^1.0.0",
     "fs-extra": "^7.0.0",
+    "is-ci": "^1.1.0",
     "micromatch": "^3.1.10",
     "mri": "^1.1.1",
     "ora": "^3.0.0",
-    "prettier": "^1.14.0"
+    "prettier": "^1.14.0",
+    "supports-color": "^5.4.0"
   },
   "eslintConfig": {
     "extends": "./src/eslint/config.js"
   },
   "devDependencies": {
-    "esm": "^3.0.72",
     "flow-bin": "^0.77.0"
   }
 }

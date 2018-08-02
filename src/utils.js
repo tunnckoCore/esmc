@@ -4,11 +4,16 @@ const os = require('os');
 const fs = require('fs');
 const proc = require('process');
 const path = require('path');
-const chalk = require('chalk');
 const fastGlob = require('fast-glob');
 const micromatch = require('micromatch');
+const ansi = require('ansi-colors');
+const isCI = require('is-ci');
+const isColors = require('supports-color').stdout;
 
 const { FileMonitor, SmartState } = require('file-state-monitor');
+
+ansi.enabled = isCI === true ? false : isColors.level;
+const colors = ansi;
 
 function getCacheFile(debug = false) {
   return debug ? '.esmc-cache-js' : path.join(os.homedir(), '.esmc-cache-js');
@@ -92,11 +97,11 @@ function fixBabelErrors(err) {
 
       if (m) {
         return [
-          `${chalk.red('error')}:`,
-          chalk.bold(m[2]),
-          chalk.dim('(null)'),
+          `${colors.red('error')}:`,
+          colors.bold(m[2]),
+          colors.dim('(null)'),
           'at',
-          `${chalk.green(m[1] + m[3])}:`,
+          `${colors.green(m[1] + m[3])}:`,
         ].join(' ');
       }
 
@@ -110,7 +115,7 @@ function fixBabelErrors(err) {
     .reduce((acc, x, idx) => {
       // console.log(idx);
       if (idx === goodLines.length - 2) {
-        return acc.concat('', '', chalk.bold.red('1 error found.'));
+        return acc.concat('', '', colors.bold.red('1 error found.'));
       }
       return acc.concat(x);
     }, [])
@@ -121,4 +126,4 @@ function fixBabelErrors(err) {
   return message;
 }
 
-module.exports = { arrayify, fixBabelErrors, getFiles, getCacheFile };
+module.exports = { arrayify, fixBabelErrors, getFiles, getCacheFile, colors };

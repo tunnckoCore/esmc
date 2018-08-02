@@ -4,9 +4,10 @@ const path = require('path');
 const proc = require('process');
 
 const fs = require('fs-extra');
-const chalk = require('chalk');
 const spawn = require('cross-spawn');
 const babelCode = require('@babel/code-frame');
+
+const { colors } = require('./utils');
 
 /* eslint-disable no-param-reassign */
 
@@ -36,7 +37,7 @@ module.exports = async function flowtype() {
         .map(createFrame)
         .forEach(outputError);
 
-      console.error(chalk.bold.red(result.errors.length, 'errors found.'));
+      console.error(colors.bold.red(result.errors.length, 'errors found.'));
       reject();
     });
   });
@@ -49,18 +50,18 @@ function normalize({ primaryLoc, referenceLocs, messageMarkup }) {
         return acc.concat(item.text);
       }
       if (item.kind === 'Code') {
-        return acc.concat(chalk.bold(item.text));
+        return acc.concat(colors.bold(item.text));
       }
       if (item.kind === 'Reference') {
         const type = item.message[0].text;
-        return acc.concat(chalk.underline(type), ' ', `[${item.referenceId}]`);
+        return acc.concat(colors.underline(type), ' ', `[${item.referenceId}]`);
       }
 
       return acc;
     }, [])
     .join('')
-    .replace('[1]', chalk.bold.blue('[1]'))
-    .replace('[2]', chalk.bold.red('[2]'));
+    .replace('[1]', colors.bold.blue('[1]'))
+    .replace('[2]', colors.bold.red('[2]'));
 
   return { message, primary: primaryLoc, root: referenceLocs['2'] };
 }
@@ -108,12 +109,12 @@ function getContents({ primary, root, message }) {
 function createFrame({ primary, root, message }) {
   primary.frame = babelCode.codeFrameColumns(primary.content, primary.loc, {
     highlightCode: false,
-    message: chalk.blue(primary.id),
+    message: colors.blue(primary.id),
   });
   if (root) {
     root.frame = babelCode.codeFrameColumns(root.content, root.loc, {
       highlightCode: false,
-      message: chalk.red(root.id),
+      message: colors.red(root.id),
     });
   }
 
@@ -122,18 +123,18 @@ function createFrame({ primary, root, message }) {
 
 function outputError({ primary, root, message }) {
   console.error(
-    `${chalk.red('error')}: ${chalk.bold('some type failures found')}`,
-    chalk.dim('(null)'),
-    `${chalk.green(primary.path)}:`,
+    `${colors.red('error')}: ${colors.bold('some type failures found')}`,
+    colors.dim('(null)'),
+    `${colors.green(primary.path)}:`,
   );
 
   console.error(message);
   console.error('');
-  console.error(chalk.blue(primary.path));
+  console.error(colors.blue(primary.path));
   console.error(primary.frame);
   if (root) {
     console.error('');
-    console.error(chalk.red(root.path));
+    console.error(colors.red(root.path));
     console.error(root.frame);
   }
   console.error('');
