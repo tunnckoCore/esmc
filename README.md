@@ -70,6 +70,7 @@ Basically it creates:
 - `dist/nodejs/__index.js` using [esm][], so you can just use it in CJS
   + pass it to your `pkg.main` field if you are not using `--no-esm` flag,
   + otherwise just pass `dist/nodejs/index.js` there
+- generates `.js.flow` files _only_ on `dist/nodejs` folder, if `--flow` is passed
 
 ## Notes
 
@@ -77,6 +78,8 @@ By default does not compiles to CommonJS. That's intentional, because bundlers h
 
 - It's mostly instantaneous, because it compiles only files that are changed
 - Babel config is basically externalized as [babel-preset-esmc][]
+  + pass `--no-build` to disable Babel transpilation
+  + note that you cannot use `--no-build` and `--no-esm` together
 - Linting is done, based on [eslint-config-esmc][]
 - If you love static typing, just pass `--flow` flag and it will run type checking before any compilation phase
   + **note** that you should install [flow-bin][] yourself on your project and configure its [.flowconfig](https://flow.org/en/docs/config/) file
