@@ -8,7 +8,7 @@ const mri = require('mri');
 const ora = require('ora');
 const fs = require('fs-extra');
 
-const { getFiles, colors } = require('./utils');
+const { getFiles } = require('./utils');
 const bridge = require('./bridge');
 const build = require('./build');
 const lint = require('./lint');
@@ -16,11 +16,11 @@ const flow = require('./flow');
 
 const utils = require('./utils');
 
-const argv = mri(proc.argv.slice(2), { boolean: ['warnings'] });
+const argv = mri(proc.argv.slice(2), {
+  default: { esm: true },
+  boolean: ['warnings'],
+});
 const dbg = false;
-
-// eslint-disable-next-line import/no-dynamic-require
-const pkg = require(path.join(proc.cwd(), 'package.json'));
 
 if (argv.force) {
   fs.removeSync(utils.getCacheFile(dbg));
@@ -44,8 +44,8 @@ function runLint(input) {
 function runBuild(input) {
   spinner = ora('Source files compiling...').start();
 
-  const promise = input.length > 0 ? build(input, dbg) : Promise.resolve();
-  return promise.then(() => spinner.succeed()).catch((err) => {
+  const prom = input.length > 0 ? build(input, argv, dbg) : Promise.resolve();
+  return prom.then(() => spinner.succeed()).catch((err) => {
     console.error(utils.fixBabelErrors(err));
     throw err;
   });
@@ -88,13 +88,8 @@ if (cmd === 'lint') {
       }
       await runLint(files);
       await runBuild(files);
-      if (pkg.dependencies && pkg.dependencies.esm) {
+      if (argv.esm) {
         await runBridge(files);
-      } else {
-        console.log(
-          colors.green(colors.symbols.check),
-          colors.cyan('You may want to add `esm` to project dependencies.'),
-        );
       }
 
       monitor.write(cacheFile);

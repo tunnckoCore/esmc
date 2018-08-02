@@ -1,6 +1,6 @@
 {
   "name": "esmc",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Modern JavaScript, today. A zero-config compiler built on @babel and @eslint, with optional support for @flowtype.",
   "main": "index.js",
   "bin": "src/cli.js",
@@ -44,6 +44,7 @@
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.10.0",
     "eslint-plugin-unicorn": "^4.0.3",
+    "esm": "^3.0.72",
     "fast-async": "^7.0.6",
     "fast-glob": "^2.2.2",
     "file-state-monitor": "^1.0.0",

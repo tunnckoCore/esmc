@@ -10,16 +10,20 @@ const babelPreset = require('./babel/preset');
 
 const transformFile = util.promisify(babel.transformFile);
 
-module.exports = async (files, debug = false) =>
-  Promise.all(files.map(createMapper('nodejs', debug))).then(() =>
-    Promise.all(files.map(createMapper('browsers', debug))),
+module.exports = async (files, opts, debug = false) =>
+  Promise.all(files.map(createMapper('nodejs', opts, debug))).then(() =>
+    Promise.all(files.map(createMapper('browsers', opts, debug))),
   );
 
-function createMapper(distType, debug = false) {
+function createMapper(distType, opts, debug = false) {
   const cwd = proc.cwd();
   const dist = path.join(cwd, 'dist');
 
-  const config = distType === 'browsers' ? babelPreset(true) : babelPreset();
+  const config =
+    distType === 'browsers'
+      ? babelPreset(true, !opts.esm)
+      : babelPreset(false, !opts.esm);
+
   const dest =
     distType === 'browsers'
       ? path.join(dist, 'browsers')
