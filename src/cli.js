@@ -57,27 +57,49 @@ function runBridge(input) {
   return promise.then(() => spinner.succeed());
 }
 
-getFiles(dbg)
-  .then(async ({ files, cacheFile, monitor }) => {
-    if (argv.flow) {
-      await runFlow(files);
-    }
-    await runLint(files);
-    await runBuild(files);
-    if (pkg.dependencies && pkg.dependencies.esm) {
-      await runBridge(files);
-    } else {
-      console.log(
-        colors.green(colors.symbols.check),
-        colors.cyan('You may want to add `esm` to project dependencies.'),
-      );
-    }
+const onfail = () => {
+  spinner.fail();
+  proc.exit(1);
+};
 
-    monitor.write(cacheFile);
+const cmd = argv._[0];
 
-    return true;
-  })
-  .catch(() => {
-    spinner.fail();
-    proc.exit(1);
-  });
+if (cmd === 'lint') {
+  getFiles(dbg)
+    .then(async ({ files, cacheFile, monitor }) => {
+      await runLint(files);
+      monitor.write(cacheFile);
+      return true;
+    })
+    .catch(onfail);
+} else if (cmd === 'build') {
+  getFiles(dbg)
+    .then(async ({ files, cacheFile, monitor }) => {
+      await runBuild(files);
+      monitor.write(cacheFile);
+      return true;
+    })
+    .catch(onfail);
+} else {
+  getFiles(dbg)
+    .then(async ({ files, cacheFile, monitor }) => {
+      if (argv.flow) {
+        await runFlow(files);
+      }
+      await runLint(files);
+      await runBuild(files);
+      if (pkg.dependencies && pkg.dependencies.esm) {
+        await runBridge(files);
+      } else {
+        console.log(
+          colors.green(colors.symbols.check),
+          colors.cyan('You may want to add `esm` to project dependencies.'),
+        );
+      }
+
+      monitor.write(cacheFile);
+
+      return true;
+    })
+    .catch(onfail);
+}

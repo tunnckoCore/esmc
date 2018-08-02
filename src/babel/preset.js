@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = (browsers, modules) => {
+module.exports = (browsers, isRegister) => {
   const targets = browsers
     ? { browsers: '>= 1%, not dead, not IE <= 11, last 1 Opera versions' }
     : { node: '8.9' };
@@ -11,7 +11,7 @@ module.exports = (browsers, modules) => {
         '@babel/preset-env',
         {
           targets,
-          modules: modules ? 'commonjs' : false,
+          modules: isRegister ? 'commonjs' : false,
           exclude: ['transform-regenerator', 'transform-async-to-generator'],
         },
       ],
