@@ -113,10 +113,11 @@
       "reflinks": true
     },
     "reflinks": [
+      "esm",
       "new-release",
       "semantic-release",
-      "babel-config-esmc",
-      "esm"
+      "babel-preset-esmc",
+      "eslint-config-esmc"
     ]
   }
 }
