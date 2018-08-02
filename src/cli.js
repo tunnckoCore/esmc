@@ -41,7 +41,7 @@ function runLint(input) {
 function runBuild(input) {
   spinner = ora('Source files compiling...').start();
 
-  const promise = input.length > 0 ? build(input) : Promise.resolve();
+  const promise = input.length > 0 ? build(input, dbg) : Promise.resolve();
   return promise.then(() => spinner.succeed()).catch((err) => {
     console.error(utils.fixBabelErrors(err));
     throw err;
