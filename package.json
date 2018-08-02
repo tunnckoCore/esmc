@@ -1,10 +1,20 @@
 {
   "name": "esmc",
-  "version": "0.4.2",
   "description": "Modern JavaScript, today. Blazingly fast zero-config compiler/language built on @babel and @eslint, with optional support for @flowtype",
-  "main": "index.js",
-  "bin": "src/cli.js",
   "license": "Apache-2.0",
+  "licenseStart": "2018",
+  "scripts": {
+    "lint": "eslint src test --fix --quiet",
+    "test": "nyc --require ./register asia",
+    "gitadd": "git status --porcelain && git add -A",
+    "commit-dry": "yarn gitadd && gitcommit -sS",
+    "precommit": "yarn lint && yarn test && yarn gitadd",
+    "commit": "gitcommit -sS",
+    "cli": "node cli.js --internal-debug"
+  },
+  "engines": {
+    "node": "^8.9.0 || ^10.6.0"
+  },
   "dependencies": {
     "@babel/code-frame": "^7.0.0-beta.55",
     "@babel/core": "^7.0.0-beta.55",
@@ -25,10 +35,88 @@
     "ora": "^3.0.0",
     "supports-color": "^5.4.0"
   },
+  "devDependencies": {
+    "asia": "^0.19.7",
+    "gitcommit": "^1.0.9",
+    "new-release": "^4.0.3",
+    "nyc": "^12.0.2"
+  },
+  "files": [
+    "src",
+    "cli.js",
+    "register.js"
+  ],
+  "bin": "cli.js",
+  "main": "dist/nodejs/__index.js",
+  "module": "dist/nodejs/index.js",
+  "version": "0.0.0-semantically-released",
+  "repository": "olstenlarck/esmc",
+  "homepage": "https://github.com/olstenlarck/esmc",
+  "author": "Charlike Mike Reagent (https://tunnckocore.com)",
+  "publishConfig": {
+    "access": "public"
+  },
   "eslintConfig": {
     "extends": "./src/eslint/config.js"
   },
-  "devDependencies": {
-    "flow-bin": "^0.77.0"
+  "renovate": {
+    "extends": "tunnckocore",
+    "packageRules": [
+      {
+        "packageNames": [
+          "eslint"
+        ],
+        "allowedVersions": "< 5"
+      }
+    ]
+  },
+  "nyc": {
+    "statements": 0,
+    "functions": 0,
+    "branches": 0,
+    "lines": 0,
+    "cache": true,
+    "check-coverage": true,
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "exclude": [
+      "register.js",
+      "test"
+    ]
+  },
+  "verb": {
+    "run": true,
+    "toc": {
+      "render": true,
+      "method": "preWrite",
+      "maxdepth": 3,
+      "footer": ""
+    },
+    "layout": "empty",
+    "tasks": [
+      "readme"
+    ],
+    "related": {
+      "list": [
+        "asia",
+        "babel-preset-esmc",
+        "eslint-config-esmc",
+        "gitcommit",
+        "new-release",
+        "xaxa",
+        "charlike"
+      ]
+    },
+    "lint": {
+      "reflinks": true
+    },
+    "reflinks": [
+      "new-release",
+      "semantic-release",
+      "babel-config-esmc",
+      "esm"
+    ]
   }
 }

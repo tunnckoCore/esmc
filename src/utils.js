@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * @copyright 2018-present, Charlike Mike Reagent (https://tunnckocore.com)
+ * @license Apache-2.0
+ */
+
 const os = require('os');
 const fs = require('fs');
 const proc = require('process');
@@ -38,13 +43,13 @@ async function getFiles(debug = false) {
     '**/*.test.js',
   ];
   const monitor = new FileMonitor(SmartState);
-  const src = path.resolve(debug ? 'examples' : 'src');
+  const src = path.resolve(debug ? 'example-src' : 'src');
 
   monitor.load(cacheFile);
   monitor.monitorPath(src);
 
   if (!fs.existsSync(cacheFile)) {
-    const source = debug ? 'examples/**/*' : 'src/**/*';
+    const source = debug ? 'example-src/**/*' : 'src/**/*';
     return fastGlob(source, { ignore, absolute: true }).then((files) => ({
       monitor,
       cacheFile,

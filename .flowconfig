@@ -2,12 +2,12 @@
 .*/node_modules
 .*/dist
 
-[include]
+ [include]
 
-[libs]
+ [libs]
 
-[lints]
+ [lints]
 
-[options]
+ [options]
 
-[strict]
+ [strict]

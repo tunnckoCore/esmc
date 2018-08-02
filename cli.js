@@ -2,25 +2,30 @@
 
 'use strict';
 
+/**
+ * @copyright 2018-present, Charlike Mike Reagent (https://tunnckocore.com)
+ * @license Apache-2.0
+ */
+
 const proc = require('process');
 const path = require('path');
 const mri = require('mri');
 const ora = require('ora');
 const fs = require('fs-extra');
 
-const { getFiles } = require('./utils');
-const bridge = require('./bridge');
-const build = require('./build');
-const lint = require('./lint');
-const flow = require('./flow');
+const { getFiles } = require('./src/utils');
+const bridge = require('./src/bridge');
+const build = require('./src/build');
+const lint = require('./src/lint');
+const flow = require('./src/flow');
 
-const utils = require('./utils');
+const utils = require('./src/utils');
 
 const argv = mri(proc.argv.slice(2), {
-  default: { esm: true },
+  default: { esm: true, 'internal-debug': false },
   boolean: ['warnings'],
 });
-const dbg = false;
+const dbg = argv['internal-debug'];
 
 if (argv.force) {
   fs.removeSync(utils.getCacheFile(dbg));

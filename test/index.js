@@ -5,4 +5,8 @@
  * @license Apache-2.0
  */
 
-module.exports = require('babel-preset-esmc');
+const test = require('asia');
+
+test('foo bar', (t) => {
+  t.ok(true);
+});

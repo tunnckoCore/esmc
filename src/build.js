@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * @copyright 2018-present, Charlike Mike Reagent (https://tunnckocore.com)
+ * @license Apache-2.0
+ */
+
 const proc = require('process');
 const path = require('path');
 const util = require('util');
@@ -44,7 +49,7 @@ function createMapper(distType, opts = {}, debug = false) {
       });
     }
 
-    const src = path.join(cwd, debug ? 'examples' : 'src');
+    const src = path.join(cwd, debug ? 'example-src' : 'src');
     const distFile = fp.replace(src, dest);
 
     return transformFile(fp, config).then(async ({ code }) => {
