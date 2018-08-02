@@ -69,17 +69,19 @@ const onfail = () => {
 
 const cmd = argv._[0];
 
-if (cmd === 'compile') {
-  /**
-   * Compile a file and print to stdout
-   */
-  build(argv._.slice(1), { ...argv, compile: true }, dbg)
-    .catch((err) => {
-      console.error(utils.fixBabelErrors(err));
-      throw err;
-    })
-    .catch(onfail);
-} else if (cmd === 'lint') {
+// if (cmd === 'compile') {
+//   /**
+//    * Compile a file and print to stdout
+//    */
+//   build(argv._.slice(1), { ...argv, compile: true }, dbg)
+//     .catch((err) => {
+//       console.error(utils.fixBabelErrors(err));
+//       throw err;
+//     })
+//     .catch(onfail);
+// } else
+
+if (cmd === 'lint') {
   /**
    * Only lint the source files
    */
