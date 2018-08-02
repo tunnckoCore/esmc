@@ -9,42 +9,36 @@ const path = require('path');
 const proc = require('process');
 
 const fs = require('fs-extra');
-const spawn = require('cross-spawn');
 const babelCode = require('@babel/code-frame');
 
-const { colors } = require('./utils');
+const { colors } = require('../utils');
 
-/* eslint-disable no-param-reassign */
+module.exports = async function flowReporter(val) {
+  return new Promise(async (resolve, reject) => {
+    const str = typeof buf === 'string' ? val : val.toString();
+    const promise = Promise.resolve(str).then(JSON.parse);
 
-module.exports = async function flowtype() {
-  return new Promise((resolve, reject) => {
-    const cp = spawn('flow', ['check', '--json', '--json-version', '2']);
+    promise.catch(reject);
 
-    cp.stdout.on('data', async (buf) => {
-      const promise = Promise.resolve(buf.toString()).then(JSON.parse);
+    const result = await promise;
 
-      promise.catch(reject);
+    if (result.passed) {
+      resolve();
+      return;
+    }
 
-      const result = await promise;
+    console.error('');
 
-      if (result.passed) {
-        resolve();
-        return;
-      }
+    result.errors
+      .map(normalize)
+      .map(normalizeRefs('primary'))
+      .map(normalizeRefs('root'))
+      .map(getContents)
+      .map(createFrame)
+      .forEach(outputError);
 
-      console.error('');
-
-      result.errors
-        .map(normalize)
-        .map(normalizeRefs('primary'))
-        .map(normalizeRefs('root'))
-        .map(getContents)
-        .map(createFrame)
-        .forEach(outputError);
-
-      console.error(colors.bold.red(result.errors.length, 'errors found.'));
-      reject();
-    });
+    console.error(colors.bold.red(result.errors.length, 'errors found.'));
+    reject();
   });
 };
 
@@ -98,6 +92,7 @@ function normalizeRefs(type) {
 
 const CACHE = {};
 function getContents({ primary, root, message }) {
+  /* eslint-disable no-param-reassign */
   primary.content = CACHE[primary.filepath]
     ? CACHE[primary.source]
     : fs.readFileSync(primary.filepath, 'utf8');
@@ -108,10 +103,13 @@ function getContents({ primary, root, message }) {
       : fs.readFileSync(root.filepath, 'utf8');
   }
 
+  /* eslint-enable no-param-reassign */
+
   return { primary, root, message };
 }
 
 function createFrame({ primary, root, message }) {
+  /* eslint-disable no-param-reassign */
   primary.frame = babelCode.codeFrameColumns(primary.content, primary.loc, {
     highlightCode: false,
     message: colors.blue(primary.id),
@@ -123,6 +121,8 @@ function createFrame({ primary, root, message }) {
     });
   }
 
+  /* eslint-enable no-param-reassign */
+
   return { primary, root, message };
 }
 
@@ -130,6 +130,7 @@ function outputError({ primary, root, message }) {
   console.error(
     `${colors.red('error')}: ${colors.bold('some type failures found')}`,
     colors.dim('(null)'),
+    'at',
     `${colors.green(primary.path)}:`,
   );
 

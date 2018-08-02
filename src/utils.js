@@ -20,28 +20,34 @@ const { FileMonitor, SmartState } = require('file-state-monitor');
 ansi.enabled = isCI === true ? false : isColors.level;
 const colors = ansi;
 
+const DEFAULT_IGNORE = [
+  '**/node_modules/**',
+  '**/bower_components/**',
+  'flow-typed/**',
+  'coverage/**',
+  '{tmp,temp}/**',
+  'vendor/**',
+  'dist/**',
+  '**/__tests__/**',
+  '**/__snapshots__/**',
+  '**/_*',
+  '**/bundle.js',
+  '**/*.min.js',
+  '**/*.spec.js',
+  '**/*.test.js',
+];
+
+function createIsIgnored() {
+  return micromatch.matcher(DEFAULT_IGNORE);
+}
+
 function getCacheFile(debug = false) {
   return debug ? '.esmc-cache-js' : path.join(os.homedir(), '.esmc-cache-js');
 }
 
 async function getFiles(debug = false) {
   const cacheFile = getCacheFile(debug);
-  const ignore = [
-    '**/node_modules/**',
-    '**/bower_components/**',
-    'flow-typed/**',
-    'coverage/**',
-    '{tmp,temp}/**',
-    'vendor/**',
-    'dist/**',
-    '**/__tests__/**',
-    '**/__snapshots__/**',
-    '**/_*',
-    '**/bundle.js',
-    '**/*.min.js',
-    '**/*.spec.js',
-    '**/*.test.js',
-  ];
+  const ignore = DEFAULT_IGNORE;
   const monitor = new FileMonitor(SmartState);
   const src = path.resolve(debug ? 'example-src' : 'src');
 
@@ -58,7 +64,7 @@ async function getFiles(debug = false) {
   }
 
   const changedFiles = monitor.getChangedFiles();
-  const isIgnored = micromatch.matcher(ignore);
+  const isIgnored = createIsIgnored();
 
   const files = [...changedFiles]
     .map(([filepath, state]) => {
@@ -131,4 +137,12 @@ function fixBabelErrors(err) {
   return message;
 }
 
-module.exports = { arrayify, fixBabelErrors, getFiles, getCacheFile, colors };
+module.exports = {
+  arrayify,
+  fixBabelErrors,
+  getFiles,
+  getCacheFile,
+  colors,
+  DEFAULT_IGNORE,
+  createIsIgnored,
+};
