@@ -41,10 +41,10 @@ function runLint(input) {
   const promise = input.length > 0 ? lint(input, argv, dbg) : Promise.resolve();
   return promise.then(() => spinner.succeed());
 }
-function runBuild(input) {
+function runBuild(input, opts) {
   spinner = ora('Source files compiling...').start();
 
-  const prom = input.length > 0 ? build(input, argv, dbg) : Promise.resolve();
+  const prom = input.length > 0 ? build(input, opts, dbg) : Promise.resolve();
   return prom.then(() => spinner.succeed()).catch((err) => {
     console.error(utils.fixBabelErrors(err));
     throw err;
@@ -64,7 +64,20 @@ const onfail = () => {
 
 const cmd = argv._[0];
 
-if (cmd === 'lint') {
+if (cmd === 'compile') {
+  /**
+   * Compile a file and print to stdout
+   */
+  build(argv._.slice(1), { ...argv, compile: true }, dbg)
+    .catch((err) => {
+      console.error(utils.fixBabelErrors(err));
+      throw err;
+    })
+    .catch(onfail);
+} else if (cmd === 'lint') {
+  /**
+   * Only lint the source files
+   */
   getFiles(dbg)
     .then(async ({ files, cacheFile, monitor }) => {
       await runLint(files);
@@ -73,21 +86,27 @@ if (cmd === 'lint') {
     })
     .catch(onfail);
 } else if (cmd === 'build') {
+  /**
+   * Only build/compile all the source files
+   */
   getFiles(dbg)
     .then(async ({ files, cacheFile, monitor }) => {
-      await runBuild(files);
+      await runBuild(files, argv);
       monitor.write(cacheFile);
       return true;
     })
     .catch(onfail);
 } else {
+  /**
+   * Type check, lint check, building/compiling all files
+   */
   getFiles(dbg)
     .then(async ({ files, cacheFile, monitor }) => {
       if (argv.flow) {
         await runFlow(files);
       }
       await runLint(files);
-      await runBuild(files);
+      await runBuild(files, argv);
       if (argv.esm) {
         await runBridge(files);
       }
