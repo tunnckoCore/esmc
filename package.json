@@ -1,6 +1,6 @@
 {
   "name": "esmc",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Modern JavaScript, today. A zero-config compiler built on @babel and @eslint, with optional support for @flowtype.",
   "main": "index.js",
   "bin": "src/cli.js",

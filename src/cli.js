@@ -41,10 +41,10 @@ function runLint(input) {
   const promise = input.length > 0 ? lint(input, argv, dbg) : Promise.resolve();
   return promise.then(() => spinner.succeed());
 }
-function runBuild(input, opts) {
+function runBuild(input) {
   spinner = ora('Source files compiling...').start();
 
-  const prom = input.length > 0 ? build(input, opts, dbg) : Promise.resolve();
+  const prom = input.length > 0 ? build(input, argv, dbg) : Promise.resolve();
   return prom.then(() => spinner.succeed()).catch((err) => {
     console.error(utils.fixBabelErrors(err));
     throw err;
@@ -91,7 +91,7 @@ if (cmd === 'compile') {
    */
   getFiles(dbg)
     .then(async ({ files, cacheFile, monitor }) => {
-      await runBuild(files, argv);
+      await runBuild(files);
       monitor.write(cacheFile);
       return true;
     })
@@ -106,7 +106,7 @@ if (cmd === 'compile') {
         await runFlow(files);
       }
       await runLint(files);
-      await runBuild(files, argv);
+      await runBuild(files);
       if (argv.esm) {
         await runBridge(files);
       }
