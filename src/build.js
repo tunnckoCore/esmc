@@ -26,14 +26,13 @@ function createMapper(distType, debug = false) {
       : path.join(dist, 'nodejs');
 
   return async (fp) => {
-    const src = debug ? 'examples' : 'src';
-    const relativePath = path.relative(path.join(cwd, src), fp);
-    const distFilepath = path.join(dest, relativePath);
+    const src = path.join(cwd, debug ? 'examples' : 'src');
+    const distFile = fp.replace(src, dest);
 
     return transformFile(fp, config).then(async ({ code }) => {
-      await fs.mkdirp(path.dirname(distFilepath));
+      await fs.mkdirp(path.dirname(distFile));
 
-      return fs.writeFile(distFilepath, code);
+      return fs.writeFile(distFile, code);
     });
   };
 }
