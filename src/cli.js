@@ -17,7 +17,7 @@ const flow = require('./flow');
 const utils = require('./utils');
 
 const argv = mri(proc.argv.slice(2), { boolean: ['warnings'] });
-const dbg = true;
+const dbg = false;
 
 // eslint-disable-next-line import/no-dynamic-require
 const pkg = require(path.join(proc.cwd(), 'package.json'));
