@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 'use strict';
 
 const proc = require('process');
@@ -15,7 +17,7 @@ const flow = require('./flow');
 const utils = require('./utils');
 
 const argv = mri(proc.argv.slice(2), { boolean: ['warnings'] });
-const dbg = true;
+const dbg = false;
 
 if (argv.force) {
   fs.removeSync(utils.getCacheFile(dbg));

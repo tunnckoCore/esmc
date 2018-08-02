@@ -1,8 +1,10 @@
 {
   "name": "esmc",
-  "version": "0.2.0",
+  "version": "0.0.0-semantically-released",
+  "description": "Modern JavaScript, today. A compiler built on @babel and @eslint, with optional support for @flowtype.",
   "main": "index.js",
-  "license": "MIT",
+  "bin": "src/cli.js",
+  "license": "Apache-2.0",
   "dependencies": {
     "@babel/cli": "^7.0.0-beta.55",
     "@babel/code-frame": "^7.0.0-beta.55",
