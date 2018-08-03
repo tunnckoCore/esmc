@@ -37,7 +37,7 @@ module.exports = async function flowReporter(val) {
       .map(createFrame)
       .forEach(outputError);
 
-    console.error(colors.bold.red(result.errors.length, 'errors found.'));
+    console.error(colors.bold.red(`${result.errors.length} errors found.`));
     reject();
   });
 };

@@ -7,6 +7,8 @@
 
 const path = require('path');
 const proc = require('process');
+
+const fs = require('fs-extra');
 const spawn = require('cross-spawn');
 const flowCopySource = require('flow-copy-source');
 
@@ -15,9 +17,31 @@ const { DEFAULT_IGNORE } = require('../utils');
 
 /* eslint-disable no-param-reassign */
 
+const flowConfig = path.join(proc.cwd(), '.flowconfig');
+const flowContent = `[ignore]
+.*/node_modules
+.*/dist
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+
+[strict]
+`;
+
 module.exports = async function flowtype(files, debug = false) {
-  const promise = new Promise((resolve, reject) => {
-    const cp = spawn('flow', ['check', '--json', '--json-version', '2']);
+  const promise = new Promise(async (resolve, reject) => {
+    if (!fs.existsSync(flowConfig)) {
+      await fs.writeFile(flowConfig, flowContent);
+    }
+    const cp = spawn(
+      'flow',
+      ['focus-check', '--quiet', '--json', '--json-version', '2'].concat(files),
+    );
 
     cp.stdout.on('data', async (buf) => {
       flowReporter(buf)
@@ -28,6 +52,8 @@ module.exports = async function flowtype(files, debug = false) {
 
   const source = debug ? 'example-src' : 'src';
   const dist = path.join(proc.cwd(), 'dist', 'nodejs');
+
+  // TODO: Consider using `flow gen-flow-files`
   return promise.then(() =>
     flowCopySource([source], dist, { ignore: DEFAULT_IGNORE }),
   );

@@ -1,3 +1,5 @@
 // @flow
 
-export default 123;
+const num: number = 123;
+
+export default num;
