@@ -1,27 +1,15 @@
-"use strict";
+// @flow
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.add = add;
-exports.sub = sub;
+import toString from './baz';
+import num from './qux/hah';
 
-var _baz = _interopRequireDefault(require("./baz"));
-
-var _hah = _interopRequireDefault(require("./qux/hah"));
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    default: obj
-  };
-}
-
-function add(foo, bar) {
+export function add(foo: number, bar: number) {
   return foo + bar;
 }
 
-function sub(a, b) {
+export function sub(a: number, b: number) {
   const fo = add(1, 24423);
-  console.log((0, _baz.default)('sasa'), fo, _hah.default);
+  console.log(toString('sasa'), fo, num);
+
   return a - b;
 }
