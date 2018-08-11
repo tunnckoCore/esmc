@@ -12,11 +12,11 @@ const eslint = require('eslint');
 const config = require('./config');
 const utils = require('../utils');
 
-module.exports = async function lintFiles(files, opts, debug = false) {
+module.exports = async function lintFiles(files, opts) {
   const defaultOptions = {
     fix: true,
     cache: true,
-    cacheLocation: debug
+    cacheLocation: opts.dbg
       ? '.esmc-cache-lint'
       : path.join(os.homedir(), '.esmc-cache-lint'),
     useEslintrc: false,

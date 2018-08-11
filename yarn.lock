@@ -20,6 +20,12 @@
   dependencies:
     "@babel/highlight" "7.0.0-beta.56"
 
+"@babel/code-frame@^7.0.0-rc.1":
+  version "7.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-rc.1.tgz#5c2154415d6c09959a71845ef519d11157e95d10"
+  dependencies:
+    "@babel/highlight" "7.0.0-rc.1"
+
 "@babel/core@^7.0.0-beta.55":
   version "7.0.0-beta.56"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.0.0-beta.56.tgz#cc03ffbb62564fef58fd1cefcbb3e32011c21df9"
@@ -281,6 +287,14 @@
 "@babel/highlight@7.0.0-beta.56":
   version "7.0.0-beta.56"
   resolved "https://registry.yarnpkg.com/@babel/highlight/-/highlight-7.0.0-beta.56.tgz#f8b0fc8c5c2de53bb2c12f9001ad3d99e573696d"
+  dependencies:
+    chalk "^2.0.0"
+    esutils "^2.0.2"
+    js-tokens "^3.0.0"
+
+"@babel/highlight@7.0.0-rc.1":
+  version "7.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@babel/highlight/-/highlight-7.0.0-rc.1.tgz#e0ca4731fa4786f7b9500421d6ff5e5a7753e81e"
   dependencies:
     chalk "^2.0.0"
     esutils "^2.0.2"
@@ -2155,6 +2169,19 @@ flow-remove-types@^1.2.3:
     babylon "^6.15.0"
     vlq "^0.2.1"
 
+flow-reporter-codeframe@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/flow-reporter-codeframe/-/flow-reporter-codeframe-1.1.6.tgz#e8b42771847272ec325937b298e00b375124a188"
+  dependencies:
+    "@babel/code-frame" "^7.0.0-rc.1"
+    ansi-colors "^2.0.5"
+    fs-extra "^7.0.0"
+    get-stdin "^6.0.0"
+    is-ci "^1.1.0"
+    mri "^1.1.1"
+    node-r_esm "^0.1.0"
+    supports-color "^5.4.0"
+
 for-in@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -2244,6 +2271,10 @@ get-caller-file@^1.0.1:
 get-stdin@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-5.0.1.tgz#122e161591e21ff4c52530305693f20e6393a398"
+
+get-stdin@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-6.0.0.tgz#9e09bf712b360ab9225e812048f71fde9c89657b"
 
 get-stream@3.0.0, get-stream@^3.0.0:
   version "3.0.0"
@@ -3166,6 +3197,10 @@ node-pre-gyp@^0.10.0:
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
+
+node-r_esm@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/node-r_esm/-/node-r_esm-0.1.0.tgz#cd272e556bcc0246f4eb987526f35b5bff1eb640"
 
 nodent-runtime@^3.2.1:
   version "3.2.1"

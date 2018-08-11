@@ -13,7 +13,7 @@ const flowRemoveTypes = require('flow-remove-types');
 
 const utils = require('../utils');
 
-module.exports = async function flowStrip(input, { filter }, dbg) {
+module.exports = async function flowStrip(input, { filter }, { dbg }) {
   const files = utils.arrayify(input).filter(filter);
   const cwd = proc.cwd();
 

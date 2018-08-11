@@ -8,8 +8,8 @@
 const eslint = require('eslint');
 const lintFiles = require('./eslint/index');
 
-module.exports = function lint(files, argv, debug = false) {
-  return lintFiles(files, argv, debug).then((report) => {
+module.exports = function lint(files, argv) {
+  return lintFiles(files, argv).then((report) => {
     if (report.errorCount === 0 && report.warningCount === 0) {
       return null;
     }

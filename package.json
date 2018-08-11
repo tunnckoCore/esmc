@@ -10,7 +10,7 @@
     "commit-dry": "yarn gitadd && gitcommit -sS",
     "precommit": "yarn lint && yarn test && yarn gitadd",
     "commit": "gitcommit -sS",
-    "cli": "node cli.js --internal-debug"
+    "cli": "node cli.js --dbg"
   },
   "engines": {
     "node": "^8.9.0 || ^10.6.0"
@@ -31,6 +31,7 @@
     "flow-bin": "^0.78.0",
     "flow-copy-source": "^2.0.2",
     "flow-remove-types": "^1.2.3",
+    "flow-reporter-codeframe": "^1.1.6",
     "fs-extra": "^7.0.0",
     "is-ci": "^1.1.0",
     "micromatch": "^3.1.10",

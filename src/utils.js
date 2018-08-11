@@ -45,17 +45,17 @@ function getCacheFile(debug = false) {
   return debug ? '.esmc-cache-js' : path.join(os.homedir(), '.esmc-cache-js');
 }
 
-async function getFiles(debug = false) {
-  const cacheFile = getCacheFile(debug);
+async function getFiles({ dbg = false }) {
+  const cacheFile = getCacheFile(dbg);
   const ignore = DEFAULT_IGNORE;
   const monitor = new FileMonitor(SmartState);
-  const src = path.resolve(debug ? 'example-src' : 'src');
+  const src = path.resolve(dbg ? 'example-src' : 'src');
 
   monitor.load(cacheFile);
   monitor.monitorPath(src);
 
   if (!fs.existsSync(cacheFile)) {
-    const source = debug ? 'example-src/**/*' : 'src/**/*';
+    const source = dbg ? 'example-src/**/*' : 'src/**/*';
     return fastGlob(source, { ignore, absolute: true }).then((files) => ({
       monitor,
       cacheFile,

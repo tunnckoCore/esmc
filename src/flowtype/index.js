@@ -33,7 +33,8 @@ const flowContent = `[ignore]
 [strict]
 `;
 
-module.exports = async function flowtype(files, debug = false) {
+module.exports = async function flowtype(files, opts) {
+  const options = Object.assign({ debug: false }, opts);
   const promise = new Promise(async (resolve, reject) => {
     if (!fs.existsSync(flowConfig)) {
       await fs.writeFile(flowConfig, flowContent);
@@ -44,13 +45,13 @@ module.exports = async function flowtype(files, debug = false) {
     );
 
     cp.stdout.on('data', async (buf) => {
-      flowReporter(buf)
+      flowReporter(buf, options)
         .then(resolve)
         .catch(reject);
     });
   });
 
-  const source = debug ? 'example-src' : 'src';
+  const source = options.debug ? 'example-src' : 'src';
   const dist = path.join(proc.cwd(), 'dist', 'nodejs');
 
   // TODO: Consider using `flow gen-flow-files`

@@ -16,21 +16,24 @@ const babelPreset = require('./babel/preset');
 
 const transformFile = util.promisify(babel.transformFile);
 
-module.exports = async function build(files, opts = {}, debug = false) {
+module.exports = async function build(files, argv) {
+  const opts = Object.assign({ dbg: false }, argv);
   proc.env.ESMC_BROWSERS = 'false';
   proc.env.ESMC_CJS = String(!opts.esm);
 
   return Promise.all(
-    utils.arrayify(files).map(createMapper('nodejs', opts, debug)),
+    utils.arrayify(files).map(createMapper('nodejs', opts)),
   ).then(() => {
     proc.env.ESMC_BROWSERS = 'true';
+
     return Promise.all(
-      utils.arrayify(files).map(createMapper('browsers', opts, debug)),
+      utils.arrayify(files).map(createMapper('browsers', opts)),
     );
   });
 };
 
-function createMapper(distType, opts = {}, debug = false) {
+function createMapper(distType, argv) {
+  const opts = Object.assign({ dbg: false }, argv);
   const cwd = proc.cwd();
   const dist = path.join(cwd, 'dist');
 
@@ -49,7 +52,7 @@ function createMapper(distType, opts = {}, debug = false) {
       });
     }
 
-    const src = path.join(cwd, debug ? 'example-src' : 'src');
+    const src = path.join(cwd, opts.dbg ? 'example-src' : 'src');
     const distFile = fp.replace(src, dest);
 
     return transformFile(fp, config).then(async ({ code }) => {
