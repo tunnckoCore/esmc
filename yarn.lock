@@ -1008,6 +1008,10 @@ ansi-colors@^2.0.2, ansi-colors@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-2.0.5.tgz#5da37825fef3e75f3bda47f760d64bfd10e15e10"
 
+ansi-colors@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.0.0.tgz#729de5fc073e8ac5dc6bb236d0ebc1432a496066"
+
 ansi-escapes@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-3.1.0.tgz#f73207bb81207d75fd6c83f125af26eea378ca30"
