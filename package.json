@@ -37,7 +37,7 @@
     "micromatch": "^3.1.10",
     "mri": "^1.1.1",
     "ora": "^3.0.0",
-    "supports-color": "^5.4.0"
+    "supports-color": "^6.0.0"
   },
   "devDependencies": {
     "asia": "^0.19.7",
