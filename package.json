@@ -28,7 +28,7 @@
     "esm": "^3.0.72",
     "fast-glob": "^3.0.0",
     "file-state-monitor": "^1.0.0",
-    "flow-bin": "^0.134.0",
+    "flow-bin": "^0.135.0",
     "flow-copy-source": "^2.0.2",
     "flow-remove-types": "^2.0.0",
     "flow-reporter-codeframe": "^1.1.6",
